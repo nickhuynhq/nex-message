@@ -1,6 +1,7 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { NextPage, NextPageContext } from "next";
+import { getSession, signIn, signOut, useSession } from "next-auth/react";
 
-export default function Home() {
+const Home: NextPage = () => {
   const { data } = useSession();
   console.log(data);
 
@@ -16,3 +17,15 @@ export default function Home() {
     </div>
   );
 }
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context)
+
+  return {
+    props: {
+      session,
+    }
+  }
+};
+
+export default Home;
