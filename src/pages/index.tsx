@@ -6,24 +6,30 @@ import Chat from "../components/Chat/Chat";
 import { Session } from "next-auth";
 
 const Home: NextPage = () => {
-  const { data } = useSession();
-  console.log(data);
+  const { data: session } = useSession();
+  console.log("HERE IS SESSION", session);
+
+  const reloadSession = () => {};
 
   return (
     <Box>
-      {data?.user?.username ? <Chat /> : <Auth />}
+      {session?.user?.username ? (
+        <Chat />
+      ) : (
+        <Auth session={session} reloadSession={reloadSession} />
+      )}
     </Box>
-  )
-}
+  );
+};
 
 export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context)
+  const session = await getSession(context);
 
   return {
     props: {
       session,
-    }
-  }
-};
+    },
+  };
+}
 
 export default Home;
