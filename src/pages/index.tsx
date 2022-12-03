@@ -7,7 +7,7 @@ import { Session } from "next-auth";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
-
+  console.log(session)
   const reloadSession = () => {};
 
   return (
