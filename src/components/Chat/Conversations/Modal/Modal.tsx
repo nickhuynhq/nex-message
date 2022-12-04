@@ -73,6 +73,7 @@ const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </form>
             {data?.searchUsers && (
               <UserSearchList
+                participants={participants}
                 users={data?.searchUsers}
                 addParticipant={addParticipant}
               />
