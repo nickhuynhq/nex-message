@@ -1,3 +1,4 @@
+import { useLazyQuery, useQuery } from "@apollo/client";
 import {
   ModalOverlay,
   ModalContent,
@@ -10,7 +11,9 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
+import UserOperations from "../../../../graphql/operations/user";
+import { SearchUsersData, SearchUsersInput } from "../../../../util/types";
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,6 +22,15 @@ interface ModalProps {
 
 const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [username, setUsername] = useState("");
+  const [searchUsers, { data, error, loading }] = useLazyQuery<
+    SearchUsersData,
+    SearchUsersInput
+  >(UserOperations.Queries.searchUsers);
+
+  const onSearch = (event: React.FormEvent) => {
+    event.preventDefault;
+    searchUsers( {variables: {username}})
+  };
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -27,14 +39,16 @@ const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <form>
+            <form onSubmit={onSearch}>
               <Stack spacing={4}>
                 <Input
                   placeholder="Enter a Username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(event) => setUsername(event.target.value)}
                 />
-                <Button type="submit" disabled={!username} >Search</Button>
+                <Button type="submit" disabled={!username}>
+                  Search
+                </Button>
               </Stack>
             </form>
           </ModalBody>
