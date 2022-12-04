@@ -5,13 +5,13 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Text,
   Modal,
   Stack,
   Input,
   Button,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import UserOperations from "../../../../graphql/operations/user";
 import {
   SearchedUser,
@@ -36,6 +36,15 @@ const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   >(UserOperations.Queries.searchUsers);
 
   console.log("HERE IS SEARCH DATA", data);
+
+  const onCreateConversation = async () => {
+    try {
+      // createConversation mutation
+    } catch (error: any) {
+      console.log("On Create Conversation Error", error)
+      toast.error(error?.message)
+    }
+  };
 
   const onSearch = (event: React.FormEvent) => {
     event.preventDefault();
@@ -79,10 +88,21 @@ const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               />
             )}
             {participants.length !== 0 && (
-              <Participants
-                participants={participants}
-                removeParticipant={removeParticipant}
-              />
+              <>
+                <Participants
+                  participants={participants}
+                  removeParticipant={removeParticipant}
+                />
+                <Button
+                  bg="brand.100"
+                  width="100%"
+                  mt={6}
+                  _hover={{ bg: "brand.100" }}
+                  onClick={() => {}}
+                >
+                  Create Conversation
+                </Button>
+              </>
             )}
           </ModalBody>
         </ModalContent>
