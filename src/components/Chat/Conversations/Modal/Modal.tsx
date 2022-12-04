@@ -28,7 +28,7 @@ const ConversationModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   >(UserOperations.Queries.searchUsers);
 
   const onSearch = (event: React.FormEvent) => {
-    event.preventDefault;
+    event.preventDefault();
     searchUsers( {variables: {username}})
   };
   return (
