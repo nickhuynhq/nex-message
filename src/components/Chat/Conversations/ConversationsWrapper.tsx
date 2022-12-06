@@ -29,7 +29,7 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
       px={3}
     >
       {/* Skeleton loader */}
-      <ConversationList session={session} />
+      <ConversationList session={session} conversations={conversationsData?.conversations || []} />
     </Box>
   );
 };
