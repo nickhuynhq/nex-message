@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 const ConversationFields = `
   conversations {
     id
+    updatedAt
     participants {
       user {
         id
@@ -19,7 +20,6 @@ const ConversationFields = `
       body
       createdAt
     }
-    updatedAt
   }
 `;
 
@@ -29,6 +29,7 @@ const ConversationOperations = {
     conversations: gql`
       query Conversations {
         ${ConversationFields}
+      }
     `,
   },
 
