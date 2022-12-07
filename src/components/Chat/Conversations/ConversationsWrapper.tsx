@@ -25,6 +25,9 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
   );
 
   const router = useRouter();
+  const {
+    query: { conversationId },
+  } = router;
 
   const onViewConversation = async (conversationId: string) => {
     router.push({ query: { conversationId } });
@@ -60,8 +63,8 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
 
   return (
     <Box
+      display={{ base: conversationId ? "none" : "flex", md: "flex" }}
       width={{ base: "100%", md: "400px" }}
-      border="1px solid red"
       bg="whiteAlpha.50"
       py={6}
       px={3}
@@ -70,7 +73,7 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
       <ConversationList
         session={session}
         conversations={conversationsData?.conversations || []}
-        onViewConversation = {onViewConversation}
+        onViewConversation={onViewConversation}
       />
     </Box>
   );
