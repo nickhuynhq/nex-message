@@ -48,7 +48,6 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   //   onDeleteConversation,
   //   onLeaveConversation,
 }) => {
-  console.log("HERE IS CONVERSATION", conversation);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
