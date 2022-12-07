@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
 import { Session } from "next-auth";
+import { ConversationPopulated } from "../../../../../backend/src/util/types";
 import ConversationOperations from "../../../graphql/operations/conversation";
 import { ConversationsData } from "../../../util/types";
 import ConversationList from "./ConversationList";
@@ -16,7 +17,34 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     data: conversationsData,
     error: conversationsError,
     loading: conversationsLoading,
-  } = useQuery<ConversationsData, null>(ConversationOperations.Queries.conversations);
+    subscribeToMore,
+  } = useQuery<ConversationsData, null>(
+    ConversationOperations.Queries.conversations
+  );
+
+  const subscribeToNewConversations = () => {
+    subscribeToMore({
+      document: ConversationOperations.Subscriptions.conversationCreated,
+      updateQuery: (
+        prev,
+        {
+          subscriptionData,
+        }: {
+          subscriptionData: {
+            data: { conversationCreated: ConversationPopulated };
+          };
+        }
+      ) => {
+        if (!subscriptionData.data) return prev;
+
+        const newConversation = subscriptionData.data.conversationCreated;
+
+        return Object.assign({}, prev, {
+          conversations: [newConversation, ...prev.conversations],
+        });
+      },
+    });
+  };
 
   console.log("HERE IS DATA", conversationsData);
 
@@ -29,7 +57,10 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
       px={3}
     >
       {/* Skeleton loader */}
-      <ConversationList session={session} conversations={conversationsData?.conversations || []} />
+      <ConversationList
+        session={session}
+        conversations={conversationsData?.conversations || []}
+      />
     </Box>
   );
 };
