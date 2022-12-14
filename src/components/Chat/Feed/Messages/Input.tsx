@@ -8,19 +8,21 @@ type MessageInputProps = {
   conversationId: string;
 };
 
-const MessageInput = ({ session, conversationId }: MessageInputProps) => {
+const MessageInput: React.FC<MessageInputProps> = ({
+  session,
+  conversationId,
+}) => {
   const [messageBody, setMessageBody] = useState("");
 
   const onSendMessage = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      
     } catch (error: any) {
-      console.log("onSendMessage error", error)
-      toast.error(error?.message)
+      console.log("onSendMessage error", error);
+      toast.error(error?.message);
     }
-  }
+  };
 
   return (
     <Box px={4} py={6} width="100%">
