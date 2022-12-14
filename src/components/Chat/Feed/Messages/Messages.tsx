@@ -3,6 +3,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import { toast } from "react-hot-toast";
 import MessageOperations from "../../../../graphql/operations/message";
 import { MessagesData, MessagesVariables } from "../../../../util/types";
+import SkeletonLoader from "../../../common/SkeletonLoader";
 
 interface MessagesProps {
   userId: string;
@@ -27,8 +28,8 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
 
   return <Flex direction="column" justify="flex-end" overflow="hidden">
     {loading && (
-        <Stack>
-            <span>Loading Messages</span>
+        <Stack px={4} spacing={4}>
+            <SkeletonLoader count={4} height="60px" width="100%"/>
         </Stack>
     )}
 
