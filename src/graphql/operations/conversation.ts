@@ -12,10 +12,7 @@ const ConversationFields = `
     hasSeenLatestMessage
   }
   latestMessage {
-      ${MessageFields}
-    }
-    body
-    createdAt
+    ${MessageFields}
   }
 `;
 
