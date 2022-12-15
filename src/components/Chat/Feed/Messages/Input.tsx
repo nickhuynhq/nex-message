@@ -37,6 +37,9 @@ const MessageInput: React.FC<MessageInputProps> = ({
         body: messageBody,
       };
 
+      // Clear input state after sending message
+      setMessageBody("");
+
       const { data, errors } = await sendMessage({
         variables: {
           ...newMessage,
