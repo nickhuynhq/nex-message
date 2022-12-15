@@ -1,5 +1,11 @@
 import { useMutation } from "@apollo/client";
-import { Box, Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import { ObjectID } from "bson";
@@ -18,6 +24,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   conversationId,
 }) => {
   const [messageBody, setMessageBody] = useState("");
+  const [inputError, setInputError] = useState(false);
   const [sendMessage] = useMutation<
     { sendMessage: boolean },
     SendMessageArguments
@@ -25,10 +32,12 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const onSendMessage = async (event: React.FormEvent) => {
     event.preventDefault();
+    setInputError(false);
 
-    if (!messageBody){
+    if (!messageBody) {
+      setInputError(true);
       toast.error("Invalid message.");
-      return
+      return;
     }
 
     try {
@@ -103,27 +112,31 @@ const MessageInput: React.FC<MessageInputProps> = ({
     <Box px={4} py={6} width="100%">
       <form onSubmit={onSendMessage}>
         <InputGroup>
-        <Input
-          value={messageBody}
-          size="md"
-          placeholder="New Message"
-          onChange={(event) => setMessageBody(event.target.value)}
-          resize="none"
-          _focus={{
-            boxShadow: "none",
-            border: "1px solid",
-            borderColor: "whiteAlpha.300",
-          }}
+          <Input
+            value={messageBody}
+            size="md"
+            isInvalid={inputError}
+            errorBorderColor="red.700"
+            placeholder="New Message"
+            onChange={(event) => setMessageBody(event.target.value)}
+            resize="none"
+            _focus={{
+              boxShadow: "none",
+              border: "1px solid",
+              borderColor: "whiteAlpha.400",
+            }}
           />
-          <InputRightElement width='4.5rem'>
-            <Button h='1.75rem' size='sm' bg="brand.100" onClick={onSendMessage}>
+          <InputRightElement width="4.5rem">
+            <Button
+              h="1.75rem"
+              size="sm"
+              bg="brand.100"
+              onClick={onSendMessage}
+            >
               Send
             </Button>
           </InputRightElement>
-
         </InputGroup>
-        
-        
       </form>
     </Box>
   );
