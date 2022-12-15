@@ -39,7 +39,10 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
 
         const newMessage = subscriptionData.data.messageSent;
         return Object.assign({}, prev, {
-          messages: [newMessage, ...prev.messages],
+          // Check if the sender is the current user
+          // If current user, do not let subscription update
+          // This is to prevent double updates due to optimistic message rendering
+          messages: newMessage.sender.id === userId ? prev.messages : [newMessage, ...prev.messages],
         });
       },
     });
