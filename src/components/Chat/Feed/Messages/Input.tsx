@@ -2,10 +2,11 @@ import { useMutation } from "@apollo/client";
 import { Box, Input } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import React, { useState } from "react";
-import {ObjectID} from "bson"
+import { ObjectID } from "bson";
 import { toast } from "react-hot-toast";
 import { SendMessageArguments } from "../../../../../../backend/src/util/types";
 import MessageOperations from "../../../../graphql/operations/message";
+import { MessagesData } from "../../../../util/types";
 
 type MessageInputProps = {
   session: Session;
@@ -27,25 +28,63 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
     try {
       // call sendMessage mutation
-      const {id: senderId} = session.user;
+      const { id: senderId } = session.user;
       const messageId = new ObjectID().toString();
       const newMessage: SendMessageArguments = {
         id: messageId,
         senderId,
         conversationId,
         body: messageBody,
-      }
+      };
 
-      const {data, errors} = await sendMessage({
+      const { data, errors } = await sendMessage({
         variables: {
           ...newMessage,
-        }
-      })
+        },
+        // Optimistic rendering to tell Apollo to cache and give data
+        // Before getting successfull response from server
+        optimisticResponse: {
+          sendMessage: true,
+        },
+        // Cache is basically a state in Apollo
+        // Prevents redundant requests
+        // Checks cache first before requesting to server
+        update: (cache) => {
+          // Read cache
+          const exisiting = cache.readQuery<MessagesData>({
+            query: MessageOperations.Query.messages,
+            variables: { conversationId },
+          }) as MessagesData;
+
+          // Write to cache
+          cache.writeQuery<MessagesData, { conversationId: string }>({
+            query: MessageOperations.Query.messages,
+            variables: { conversationId },
+            data: {
+              ...exisiting,
+              messages: [
+                {
+                  id: messageId,
+                  body: messageBody,
+                  senderId: session.user.id,
+                  conversationId,
+                  sender: {
+                    id: session.user.id,
+                    username: session.user.username,
+                  },
+                  createdAt: new Date(Date.now()),
+                  updatedAt: new Date(Date.now()),
+                },
+                ...exisiting.messages,
+              ],
+            },
+          });
+        },
+      });
 
       if (!data?.sendMessage || errors) {
-        throw new Error("Failed to send message")
+        throw new Error("Failed to send message");
       }
-
     } catch (error: any) {
       console.log("onSendMessage error", error);
       toast.error(error?.message);
