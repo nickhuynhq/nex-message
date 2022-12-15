@@ -9,6 +9,7 @@ import {
   MessageSubscriptionData,
 } from "../../../../util/types";
 import SkeletonLoader from "../../../common/SkeletonLoader";
+import MessageItem from "./MessageItem";
 interface MessagesProps {
   userId: string;
   conversationId: string;
@@ -36,8 +37,6 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
       updateQuery: (prev, { subscriptionData }: MessageSubscriptionData) => {
         if (!subscriptionData) return prev;
 
-        console.log("HERE IS SUBSCRIPTION DATA", subscriptionData)
-
         const newMessage = subscriptionData.data.messageSent;
         return Object.assign({}, prev, {
           messages: [newMessage, ...prev.messages],
@@ -47,8 +46,8 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
   };
 
   useEffect(() => {
-    subscribeToMoreMessages(conversationId)
-  },[conversationId])
+    subscribeToMoreMessages(conversationId);
+  }, [conversationId]);
 
   if (error) {
     return null;
@@ -65,8 +64,11 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
       {data?.messages && (
         <Flex direction="column-reverse" overflowY="scroll" height="100%">
           {data.messages.map((message) => (
-            // <MessageItem />
-            <div key={message.id}>{message.body}</div>
+            <MessageItem
+              key={message.id}
+              message={message}
+              sentByMe={message.sender.id === userId}
+            />
           ))}
         </Flex>
       )}
