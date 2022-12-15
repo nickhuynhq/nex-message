@@ -23,6 +23,10 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
     }
   );
 
+  if (error) {
+    return null;
+  }
+
   console.log("HERE IS MESSAGES DATA", data);
   
 
