@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { Box, Input } from "@chakra-ui/react";
+import { Box, Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import { ObjectID } from "bson";
@@ -25,6 +25,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const onSendMessage = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!messageBody){
+      toast.error("Invalid message.");
+      return
+    }
 
     try {
       // call sendMessage mutation
@@ -97,6 +102,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   return (
     <Box px={4} py={6} width="100%">
       <form onSubmit={onSendMessage}>
+        <InputGroup>
         <Input
           value={messageBody}
           size="md"
@@ -108,7 +114,16 @@ const MessageInput: React.FC<MessageInputProps> = ({
             border: "1px solid",
             borderColor: "whiteAlpha.300",
           }}
-        />
+          />
+          <InputRightElement width='4.5rem'>
+            <Button h='1.75rem' size='sm' bg="brand.100" onClick={onSendMessage}>
+              Send
+            </Button>
+          </InputRightElement>
+
+        </InputGroup>
+        
+        
       </form>
     </Box>
   );
