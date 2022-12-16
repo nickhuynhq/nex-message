@@ -30,8 +30,17 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     query: { conversationId },
   } = router;
 
-  const onViewConversation = async (conversationId: string) => {
+  const onViewConversation = async (
+    conversationId: string,
+    hasSeenLatestMessage: boolean | undefined
+  ) => {
+    // Push the conversationId to the router query params
     router.push({ query: { conversationId } });
+
+    // Mark the conversation as read
+    if (hasSeenLatestMessage) return;
+
+    // markConversationAsRead mutation
   };
 
   const subscribeToNewConversations = () => {

@@ -30,8 +30,9 @@ interface ConversationItemProps {
   conversation: ConversationPopulated;
   onClick: () => void;
   isSelected: boolean;
+  hasSeenLatestMessage?: boolean | undefined;
   //   onEditConversation?: () => void;
-  //   hasSeenLatestMessage?: boolean;
+
   //   selectedConversationId?: string;
   //   onDeleteConversation?: (conversationId: string) => void;
   //   onLeaveConversation?: (conversation: ConversationPopulated) => void;
@@ -43,7 +44,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   onClick,
   isSelected,
   //   selectedConversationId,
-  //   hasSeenLatestMessage,
+    hasSeenLatestMessage,
   //   onEditConversation,
   //   onDeleteConversation,
   //   onLeaveConversation,
