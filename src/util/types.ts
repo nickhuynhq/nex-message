@@ -43,10 +43,9 @@ export interface CreateConversationInput {
 }
 
 export interface ConversationUpdatedData {
-  // conversationUpdated: {
-  //   conversation: Omit<ConversationPopulated, 'latestMessage'> & {latestMessage: MessagePopulated};
-  // };
-  conversation: ConversationPopulated;
+  conversationUpdated: {
+    conversation: ConversationPopulated;
+  };
 }
 
 // Messages

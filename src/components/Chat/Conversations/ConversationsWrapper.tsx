@@ -49,9 +49,16 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     {
       onData: ({ client, data }) => {
         const { data: subscriptionData } = data;
-        console.log("ON DATA FIRING", subscriptionData);
         if (!subscriptionData) return;
 
+        // Check if you are currently viewing the conversation
+        const {conversationUpdated: {conversation: updatedConversation }} = subscriptionData
+
+        const currentlyViewingConversation = updatedConversation.id === conversationId;
+
+        if (currentlyViewingConversation) {
+          onViewConversation(conversationId, false);
+        }
       },
     }
   );
