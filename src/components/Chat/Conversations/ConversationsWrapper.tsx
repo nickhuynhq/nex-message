@@ -1,9 +1,12 @@
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { ConversationPopulated } from "../../../../../backend/src/util/types";
+import {
+  ConversationPopulated,
+  ParticipantPopulated,
+} from "../../../../../backend/src/util/types";
 import ConversationOperations from "../../../graphql/operations/conversation";
 import { ConversationsData } from "../../../util/types";
 import SkeletonLoader from "../../common/SkeletonLoader";
@@ -16,6 +19,14 @@ interface ConversationWrapperProps {
 const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
   session,
 }) => {
+  const router = useRouter();
+  const {
+    query: { conversationId },
+  } = router;
+  const {
+    user: { id: userId },
+  } = session;
+
   const {
     data: conversationsData,
     error: conversationsError,
@@ -25,10 +36,10 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     ConversationOperations.Queries.conversations
   );
 
-  const router = useRouter();
-  const {
-    query: { conversationId },
-  } = router;
+  const [markConversationAsRead] = useMutation<
+    { markConversationAsRead: boolean },
+    { userId: string; conversationId: string }
+  >(ConversationOperations.Mutations.markConversationAsRead);
 
   const onViewConversation = async (
     conversationId: string,
@@ -41,6 +52,73 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     if (hasSeenLatestMessage) return;
 
     // markConversationAsRead mutation
+    // Render optimistically
+    try {
+      await markConversationAsRead({
+        variables: {
+          userId,
+          conversationId,
+        },
+        optimisticResponse: {
+          markConversationAsRead: true,
+        },
+        update: (cache) => {
+          // Get conversation participants from Cache
+          // Fragment is a piece of the Cache, Cache is a piece of the Query
+          // Fragment is performing a Query on Cache
+          const participantsFragment = cache.readFragment<{
+            participants: Array<ParticipantPopulated>;
+          }>({
+            id: `Conversation:${conversationId}`,
+            fragment: gql`
+              fragment Participants on Conversation {
+                participants {
+                  user {
+                    id
+                    username
+                  }
+                  hasSeenLatestMessage
+                }
+              }
+            `,
+          });
+          // Don't update anything if it doesn't exist
+          if (!participantsFragment) return;
+
+          // Create a copy of participants so it can mutate without affecting the original
+          const participants = [...participantsFragment.participants];
+
+          const userParticipantIndex = participants.findIndex(
+            (p) => p.user.id === userId
+          );
+
+          if (userParticipantIndex === -1) return;
+
+          const userParticipant = participants[userParticipantIndex];
+
+          // Update participant to show latest message as read
+          participants[userParticipantIndex] = {
+            ...userParticipant,
+            hasSeenLatestMessage: true,
+          };
+
+          // Update/ Write to cache
+          cache.writeFragment({
+            id: `Conversation:${conversationId}`,
+            fragment: gql`
+             fragment UpdatedParticipant on Conversation {
+              participants
+             }
+            `,
+            data: {
+              participants,
+            }
+          })
+        },
+      });
+    } catch (error: any) {
+      console.log("onViewConversation Error", error);
+    }
   };
 
   const subscribeToNewConversations = () => {
