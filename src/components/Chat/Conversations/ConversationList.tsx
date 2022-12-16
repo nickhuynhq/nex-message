@@ -49,8 +49,6 @@ const ConversationList: React.FC<ConversationListProps> = ({
         const participant = conversation.participants.find(
           (p: any) => p.user.id == userId
         );
-
-        console.log(participant)
         return (
           <ConversationItem
             key={conversation.id}

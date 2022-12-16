@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import { Box } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
@@ -8,7 +8,10 @@ import {
   ParticipantPopulated,
 } from "../../../../../backend/src/util/types";
 import ConversationOperations from "../../../graphql/operations/conversation";
-import { ConversationsData } from "../../../util/types";
+import {
+  ConversationsData,
+  ConversationUpdatedData,
+} from "../../../util/types";
 import SkeletonLoader from "../../common/SkeletonLoader";
 import ConversationList from "./ConversationList";
 
@@ -41,6 +44,17 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     { userId: string; conversationId: string }
   >(ConversationOperations.Mutations.markConversationAsRead);
 
+  useSubscription<ConversationUpdatedData, null>(
+    ConversationOperations.Subscriptions.conversationUpdated,
+    {
+      onData: ({ client, data }) => {
+        const { data: subscriptionData } = data;
+        console.log("ON DATA FIRING", subscriptionData);
+        if (!subscriptionData) return;
+
+      },
+    }
+  );
   const onViewConversation = async (
     conversationId: string,
     hasSeenLatestMessage: boolean | undefined
@@ -106,14 +120,14 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
           cache.writeFragment({
             id: `Conversation:${conversationId}`,
             fragment: gql`
-             fragment UpdatedParticipant on Conversation {
-              participants
-             }
+              fragment UpdatedParticipant on Conversation {
+                participants
+              }
             `,
             data: {
               participants,
-            }
-          })
+            },
+          });
         },
       });
     } catch (error: any) {
@@ -138,7 +152,7 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
         ) => {
           if (!subscriptionData.data) return prev;
           const newConversation = subscriptionData.data.conversationCreated;
-  
+
           return Object.assign({}, prev, {
             conversations: [newConversation, ...prev.conversations],
           });
