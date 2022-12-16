@@ -121,33 +121,32 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
     }
   };
 
-  const subscribeToNewConversations = () => {
-    subscribeToMore({
-      document: ConversationOperations.Subscriptions.conversationCreated,
-      updateQuery: (
-        prev,
-        {
-          subscriptionData,
-        }: {
-          subscriptionData: {
-            data: { conversationCreated: ConversationPopulated };
-          };
-        }
-      ) => {
-        if (!subscriptionData.data) return prev;
-        const newConversation = subscriptionData.data.conversationCreated;
-
-        return Object.assign({}, prev, {
-          conversations: [newConversation, ...prev.conversations],
-        });
-      },
-    });
-  };
-
   // Execute subscription on mount
   useEffect(() => {
+    const subscribeToNewConversations = () => {
+      subscribeToMore({
+        document: ConversationOperations.Subscriptions.conversationCreated,
+        updateQuery: (
+          prev,
+          {
+            subscriptionData,
+          }: {
+            subscriptionData: {
+              data: { conversationCreated: ConversationPopulated };
+            };
+          }
+        ) => {
+          if (!subscriptionData.data) return prev;
+          const newConversation = subscriptionData.data.conversationCreated;
+  
+          return Object.assign({}, prev, {
+            conversations: [newConversation, ...prev.conversations],
+          });
+        },
+      });
+    };
     subscribeToNewConversations();
-  }, []);
+  }, [subscribeToMore]);
 
   return (
     <Box
