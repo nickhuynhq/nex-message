@@ -23,9 +23,7 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
   session,
 }) => {
   const router = useRouter();
-  const {
-    query: { conversationId },
-  } = router;
+  const conversationId = router.query.conversationId as string || ""
   const {
     user: { id: userId },
   } = session;
