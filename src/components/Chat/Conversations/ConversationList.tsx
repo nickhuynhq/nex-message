@@ -97,6 +97,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
                 participant?.hasSeenLatestMessage
               )
             }
+            onDeleteConversation={onDeleteConversation}
             hasSeenLatestMessage={participant?.hasSeenLatestMessage}
             isSelected={conversation.id === router.query.conversationId}
           />
