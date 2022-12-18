@@ -35,6 +35,12 @@ const ConversationOperations = {
         }
       }
     `,
+    deleteConversation: gql`
+      mutation DeleteConversation($conversationId: String!) {
+        deleteConversation(conversationId: $conversationId)
+      }
+    `
+    ,
     markConversationAsRead: gql`
       mutation MarkConversationAsRead(
         $userId: String!
