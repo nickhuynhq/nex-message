@@ -61,7 +61,14 @@ const ConversationOperations = {
           }
         }
       }
-    `
+    `,
+    conversationDeleted: gql`
+      subscription ConversationDeleted {
+        conversationDeleted {
+          id
+        }
+      }
+    `,
   },
 };
 
