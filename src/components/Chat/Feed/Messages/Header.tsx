@@ -25,9 +25,9 @@ const MessagesHeader: React.FC<MessagesHeaderProps> = ({
     (conversation) => conversation.id === conversationId
   );
 
-  if (data?.conversations && !loading && !conversation) {
-    router.replace(process.env.NEXT_PUBLIC_BASE_URL as string);
-  }
+  // if (data?.conversations && !loading && !conversation) {
+  //   router.replace(process.env.NEXT_PUBLIC_BASE_URL as string);
+  // }
 
   return (
     <Stack

@@ -9,6 +9,7 @@ import {
 } from "../../../../../backend/src/util/types";
 import ConversationOperations from "../../../graphql/operations/conversation";
 import {
+  ConversationDeletedData,
   ConversationsData,
   ConversationUpdatedData,
 } from "../../../util/types";
@@ -23,7 +24,7 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
   session,
 }) => {
   const router = useRouter();
-  const conversationId = router.query.conversationId as string || ""
+  const conversationId = (router.query.conversationId as string) || "";
   const {
     user: { id: userId },
   } = session;
@@ -50,9 +51,12 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
         if (!subscriptionData) return;
 
         // Check if you are currently viewing the conversation
-        const {conversationUpdated: {conversation: updatedConversation }} = subscriptionData
+        const {
+          conversationUpdated: { conversation: updatedConversation },
+        } = subscriptionData;
 
-        const currentlyViewingConversation = updatedConversation.id === conversationId;
+        const currentlyViewingConversation =
+          updatedConversation.id === conversationId;
 
         if (currentlyViewingConversation) {
           onViewConversation(conversationId, false);
@@ -60,6 +64,40 @@ const ConversationsWrapper: React.FC<ConversationWrapperProps> = ({
       },
     }
   );
+
+  useSubscription<ConversationDeletedData, null>(
+    ConversationOperations.Subscriptions.conversationDeleted,
+    {
+      onData: ({ client, data }) => {
+        const { data: subscriptionData } = data;
+
+        if (!subscriptionData) return;
+
+        const existing = client.readQuery<ConversationsData>({
+          query: ConversationOperations.Queries.conversations,
+        });
+
+        if (!existing) return;
+
+        const { conversations } = existing;
+        const {
+          conversationDeleted: { id: deletedConversationId },
+        } = subscriptionData;
+
+        client.writeQuery<ConversationsData>({
+          query: ConversationOperations.Queries.conversations,
+          data: {
+            conversations: conversations.filter(
+              (conversation) => conversation.id !== deletedConversationId
+            ),
+          },
+        });
+
+        router.push("/");
+      },
+    }
+  );
+
   const onViewConversation = async (
     conversationId: string,
     hasSeenLatestMessage: boolean | undefined
