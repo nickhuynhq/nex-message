@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 // Prisma is middle man between NEXT app and MongoDB database
 export default NextAuth({
+  
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
