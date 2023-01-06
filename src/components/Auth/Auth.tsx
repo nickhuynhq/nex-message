@@ -21,6 +21,7 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
   >(UserOperations.Mutations.createUsername);
 
   const onSubmit = async () => {
+    console.log(session)
     if (!username) return;
     try {
       const { data } = await createUsername({ variables: { username } });
@@ -43,7 +44,7 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
       reloadSession();
     } catch (error: any) {
       toast.error(error?.message)
-      console.log("onSubmit error", error);
+      console.log("onSubmit error", error?.message);
     }
   };
 
