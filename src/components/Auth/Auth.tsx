@@ -66,7 +66,7 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
           <>
             <Text fontSize="3xl">NEX Message</Text>
             <Button
-              onClick={() => signIn("google")}
+              onClick={() => {signIn("google")}}
               leftIcon={
                 <Image
                   height="20px"

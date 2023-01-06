@@ -3,7 +3,7 @@ import { Box, Button, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { ConversationPopulated } from "../../../../../backend/src/util/types";
+import { ConversationPopulated } from "../../../util/types";
 import ConversationItem from "./ConversationItem";
 import ConversationModal from "./Modal/Modal";
 import ConversationOperations from "../../../graphql/operations/conversation";

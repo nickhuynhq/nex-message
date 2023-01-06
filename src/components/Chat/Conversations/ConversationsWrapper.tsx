@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import {
   ConversationPopulated,
   ParticipantPopulated,
-} from "../../../../../backend/src/util/types";
+} from "../../../util/types";
 import ConversationOperations from "../../../graphql/operations/conversation";
 import {
   ConversationDeletedData,

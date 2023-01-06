@@ -8,7 +8,6 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { createClient } from "graphql-ws";
 import { getSession } from "next-auth/react";
-import { type } from "os";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
