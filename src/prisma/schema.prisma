@@ -1,6 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "darwin"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin"]
 }
 
 datasource db {
@@ -9,19 +9,20 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String? @db.String
-  access_token       String? @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.String
-  session_state      String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
@@ -34,22 +35,58 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  username       String?  @unique
-  accounts       Account[]
-  sessions       Session[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                      String                    @id @default(auto()) @map("_id") @db.ObjectId
+  name                    String?
+  email                   String?                   @unique
+  emailVerified           DateTime?
+  image                   String?
+  username                String?                   @unique
+  accounts                Account[]
+  sessions                Session[]
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  ConversationParticipant ConversationParticipant[]
+  Message                 Message[]
 }
 
 model VerificationToken {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime
+
   @@unique([identifier, token])
+}
+
+model Conversation {
+  id              String                    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+  participants    ConversationParticipant[]
+  messages        Message[]
+  latestMessageId String?                   @unique
+  latestMessage   Message?                  @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+}
+
+model ConversationParticipant {
+  id                   String       @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  userId               String
+  user                 User         @relation(fields: [userId], references: [id])
+  conversationId       String
+  conversation         Conversation @relation(fields: [conversationId], references: [id])
+  hasSeenLatestMessage Boolean
+}
+
+model Message {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String
+  conversation   Conversation  @relation(fields: [conversationId], references: [id])
+  senderId       String
+  sender         User          @relation(fields: [senderId], references: [id])
+  body           String
+  isLatestIn     Conversation? @relation(name: "latestConversationMessage")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }

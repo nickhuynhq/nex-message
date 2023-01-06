@@ -74,7 +74,6 @@ export interface MessageSubscriptionData {
 
 
 // Migrate backend types 
-
 export const participantPopulated =
   Prisma.validator<Prisma.ConversationParticipantInclude>()({
     user: {
@@ -101,6 +100,7 @@ export const conversationPopulated =
       },
     },
   });
+
 
 export const messagePopulated = Prisma.validator<Prisma.MessageInclude>()({
   sender: {
