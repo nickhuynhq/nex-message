@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   env: {
     BACKEND_URL: process.env.BACKEND_URL,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   }
 }
 
