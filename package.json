@@ -6,6 +6,7 @@
     "dev": "next dev",
     "postinstall": "prisma generate --schema=src/prisma/schema.prisma",
     "migrate": "prisma db push --schema=src/prisma/schema.prisma",
+    "vercel-build": "prisma generate --schema=src/prisma/schema.prisma",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
