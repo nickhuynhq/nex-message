@@ -43,7 +43,7 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
       reloadSession();
     } catch (error: any) {
       toast.error(error?.message)
-      console.log("onSubmit error", error?.message);
+      console.log("onSubmit error", error);
     }
   };
 
