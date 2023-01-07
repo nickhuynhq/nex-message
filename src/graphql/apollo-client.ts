@@ -10,7 +10,7 @@ import { createClient } from "graphql-ws";
 import { getSession } from "next-auth/react";
 
 const httpLink = new HttpLink({
-  uri: `https://${process.env.BACKEND_URL}/graphql`,
+  uri: `http://${process.env.BACKEND_URL}/graphql`,
   credentials: "include",
 });
 
