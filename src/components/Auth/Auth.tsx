@@ -21,11 +21,10 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
   >(UserOperations.Mutations.createUsername);
 
   const onSubmit = async () => {
-    console.log(session)
     if (!username) return;
     try {
       const { data } = await createUsername({ variables: { username } });
-
+      console.log(data)
       if (!data?.createUsername) {
         throw new Error();
       }

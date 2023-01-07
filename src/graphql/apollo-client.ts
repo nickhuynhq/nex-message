@@ -10,7 +10,7 @@ import { createClient } from "graphql-ws";
 import { getSession } from "next-auth/react";
 
 const httpLink = new HttpLink({
-  uri: `https://${process.env.BACKEND_URL}/graphql`,
+  uri: `http://${process.env.BACKEND_URL}/graphql`,
   credentials: "include",
 });
 
@@ -20,7 +20,7 @@ const wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: `ws://${process.env.BACKEND_URL}/graphql/subscriptions`,
+          url: `wss://${process.env.BACKEND_URL}/graphql/subscriptions`,
           connectionParams: async () => ({
             session: await getSession(),
           })
