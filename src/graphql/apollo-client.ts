@@ -20,7 +20,7 @@ const wsLink =
   typeof window !== "undefined"
     ? new GraphQLWsLink(
         createClient({
-          url: `wss://${process.env.BACKEND_URL}/graphql/subscriptions`,
+          url: `ws://${process.env.BACKEND_URL}/graphql/subscriptions`,
           connectionParams: async () => ({
             session: await getSession(),
           })
