@@ -9,6 +9,10 @@ interface ChatProps {
 }
 
 const Chat: React.FC<ChatProps> = ({session}) => {
+  console.log("hello")
+  console.log(session)
+  console.log(process.env.NEXTAUTH_URL)
+  
   return (
     <Flex height="100vh">
       <ConversationsWrapper session={session}/>
