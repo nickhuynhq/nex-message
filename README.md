@@ -1,17 +1,22 @@
 # NEX Message.
 
-**Nex Message is a full stack chat messaging application using Next.js, Chakra UI, GraphQL, Prisma, & MongoDB**
+**💬 Nex Message is a full stack chat messaging application using Next.js, Chakra UI, GraphQL, Prisma, & MongoDB**
 
-This project was created to experiment with websockets and creating my own websocket server! 😆
-During this project I was able to learn to use the Prisma ORM to access my MongoDB database.
-I also learnt how to create GraphQL Queries, Mutations, and Subscriptions for my websocket connections.
+This project was created to experiment with websockets and creating my own websocket server! <br>
+During this project I was able to learn to use the Prisma ORM to access my MongoDB database. <br>
+This also exposed me to configuring and learning to use GraphQL Queries, Mutations, and Subscriptions for my websocket connections. <br>
 
-Please use this link to demo the live site!
+👨‍💻 Please use this link to demo the live site!
 https://nex-message.vercel.app/
+
+🤩 To check out my server code for this project: https://github.com/nickhuynhq/nex-message-server
 
 ## Project Screenshot
 ![image](https://user-images.githubusercontent.com/71597829/212443667-3e46fcdf-5b5b-4c93-9e8d-ed9dc7421bda.png)
 
+
+## Project Demo
+https://user-images.githubusercontent.com/71597829/212485525-acce1e30-7905-4776-ac4c-3c7024209a09.mov
 
 ## Current Features
 - Create chat rooms
@@ -36,7 +41,7 @@ https://nex-message.vercel.app/
 ```$ git clone https://git@github.com:nickhuynhq/nex-message.git```
 
 
-2. Run `npm install` from inside the client directory.
+2. Run `npm install` from inside the root directory.
 ```bash
 $ cd nex-message
 $ npm install
@@ -44,8 +49,8 @@ $ npm install
 
 3. Create your own .env.local file
 ```
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_URL_INTERNAL=http://localhost:3000
+NEXTAUTH_URL=http://localhost:3000 OR <YOUR URL>
+NEXTAUTH_URL_INTERNAL=http://localhost:3000 OR <YOUR URL>
 NEXTAUTH_SECRET=<YOUR SECRET KEY>
 
 BACKEND_URL=<URL OF THE BACKEND>
