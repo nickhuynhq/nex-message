@@ -15,7 +15,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  useSecureCookies: false,
   callbacks: {
     async session({ session, token, user }) {
       console.log(session);
