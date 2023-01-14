@@ -42,7 +42,7 @@ $ cd nex-message
 $ npm install
 ```
 
-3. Create your own .env.development file
+3. Create your own .env.local file
 ```
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_URL_INTERNAL=http://localhost:3000
@@ -56,7 +56,13 @@ GOOGLE_CLIENT_SECRET=<YOUR SECRET KEY>
 MONGODB_URI=<YOUR MONGODB URI>
 ```
 
-4. Run the app (make sure you are in the root folder)
+4. Generate Prisma Schema
+
+```bash
+$ npx prisma generate --schema=src/prisma/schema.prisma
+```
+
+5. Run the app
 
 ```bash
 $ npm run dev
