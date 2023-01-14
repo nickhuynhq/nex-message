@@ -1,34 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NEX Message.
 
-## Getting Started
+**Nex Message is a full stack chat messaging application using Next.js, Chakra UI, GraphQL, Prisma, & MongoDB**
 
-First, run the development server:
+This project was created to experiment with websockets and creating my own websocket server! 😆
+During this project I was able to learn to use the Prisma ORM to access my MongoDB database.
+I also learnt how to create GraphQL Queries, Mutations, and Subscriptions for my websocket connections.
 
+Please use this link to demo the live site!
+https://nex-message.vercel.app/
+
+## Project Screenshot
+![image](https://user-images.githubusercontent.com/71597829/212443667-3e46fcdf-5b5b-4c93-9e8d-ed9dc7421bda.png)
+
+
+## Current Features
+- Create chat rooms
+- Google Accounts 
+- Group Chats
+- Deleting rooms
+
+## Tech Stack
+![Next.js](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![Chakra UI](https://img.shields.io/static/v1?style=for-the-badge&message=Chakra+UI&color=319795&logo=Chakra+UI&logoColor=FFFFFF&label=)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
+![MongoDB](https://img.shields.io/static/v1?style=for-the-badge&message=MongoDB&color=47A248&logo=MongoDB&logoColor=FFFFFF&label=)
+![Prisma](https://img.shields.io/static/v1?style=for-the-badge&message=Prisma&color=2D3748&logo=Prisma&logoColor=FFFFFF&label=)
+![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white)
+![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+
+## Installation
+
+1. Clone this repository.
+```$ git clone https://git@github.com:nickhuynhq/nex-message.git```
+
+
+2. Run `npm install` from inside the client directory.
 ```bash
-npm run dev
-# or
-yarn dev
+$ cd nex-message
+$ npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Create your own .env.development file
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL_INTERNAL=http://localhost:3000
+NEXTAUTH_SECRET=<YOUR SECRET KEY>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+BACKEND_URL=<URL OF THE BACKEND>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+GOOGLE_CLIENT_ID=<YOUR ID HERE>
+GOOGLE_CLIENT_SECRET=<YOUR SECRET KEY>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+MONGODB_URI=<YOUR MONGODB URI>
+```
 
-## Learn More
+4. Run the app (make sure you are in the root folder)
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+$ npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Nicholas Huynh [@nickhuynhq](https://github.com/nickhuynhq)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Swag](http://ForTheBadge.com/images/badges/built-with-swag.svg)
