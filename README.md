@@ -2,10 +2,10 @@
 
 **💬 Nex Message is a full stack chat messaging application using Next.js, Chakra UI, GraphQL, Prisma, & MongoDB**
 
-- This project was created to experiment with **websockets** 🕸️ and creating my own websocket server! <br>
-- In addition, **Chakra UI** 🧘 allowed me to flex my styling muscles, using new components to create the sleek UI.<br>
-- During this project I was able to learn to use the **Prisma ORM** 🧊 to access my **MongoDB** database 🍃. <br>
-- This also exposed me to configuring and using **GraphQL** 📊 with **Apollo** to access Queries, Mutations, & Subscriptions for my websocket connections. <br>
+- This project was created to experiment with **websockets** and creating my own websocket server! <br>
+- In addition, **Chakra UI** allowed me to flex my styling muscles, using new components to create the sleek UI.<br>
+- During this project I was able to learn to use the **Prisma ORM** to access my **MongoDB** database. <br>
+- This also exposed me to configuring and using **GraphQL** with **Apollo** to access Queries, Mutations, & Subscriptions for my websocket connections. <br>
 
 👨‍💻 Please use this link to demo the live site!
 https://nex-message.vercel.app/
